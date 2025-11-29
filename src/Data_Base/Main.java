@@ -1,4 +1,3 @@
-/// File 1: Main.java (package Data_Base)
 package Data_Base;
 
 import java.sql.Connection;
@@ -9,8 +8,8 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         JDBC_CURD db = new JDBC_CURD();
 
-        Connection conn = db.connectToDB("JDBC Project", "postgres", "10062002");
-        db.createCustomerTable(conn, "customer");
+        Connection mahin = db.connectToDB("JDBC Project", "postgres", "10062002");
+        db.createCustomerTable(mahin, "customer");
 
         while (true) {
             db.showMenu();
@@ -26,7 +25,7 @@ public class Main {
             switch (choice) {
                 case 1:
                     // ✅ AUTO GENERATE ID
-                    String newId = db.generateCustomerId(conn, "customer");
+                    String newId = db.generateCustomerId(mahin, "customer");
                     System.out.println("🎉 Your new Customer ID: " + newId);
                     System.out.println("📝 Save this ID for future login!");
 
@@ -38,7 +37,7 @@ public class Main {
                     double deposit = sc.nextDouble();
                     sc.nextLine();
 
-                    db.insertCustomer(conn, "customer", newId, name, address, deposit);
+                    db.insertCustomer(mahin, "customer", newId, name, address, deposit);
                     break;
 
                 case 2:
@@ -48,28 +47,28 @@ public class Main {
                     System.out.print("Enter Customer ID: ");
                     String id = sc.nextLine();
 
-                    if (!db.customerExists(conn, "customer", id)) {
+                    if (!db.customerExists(mahin, "customer", id)) {
                         System.out.println("❌ Customer '" + id + "' not found!");
                         System.out.println("💡 Create new account first or use correct ID.");
                         break;
                     }
 
                     switch (choice) {
-                        case 2: db.readCustomer(conn, "customer", id); break;
+                        case 2: db.readCustomer(mahin, "customer", id); break;
                         case 3:
                             System.out.print("Enter Deposit Amount: ");
-                            db.deposit(conn, "customer", id, sc.nextDouble());
+                            db.deposit(mahin, "customer", id, sc.nextDouble());
                             sc.nextLine(); break;
                         case 4:
                             System.out.print("Enter Withdraw Amount: ");
-                            db.withdraw(conn, "customer", id, sc.nextDouble());
+                            db.withdraw(mahin, "customer", id, sc.nextDouble());
                             sc.nextLine(); break;
-                        case 6: db.deleteCustomer(conn, "customer", id); break;
+                        case 6: db.deleteCustomer(mahin, "customer", id); break;
                     }
                     break;
 
                 case 5:
-                    db.readAllCustomers(conn, "customer");
+                    db.readAllCustomers(mahin, "customer");
                     break;
 
                 default:
